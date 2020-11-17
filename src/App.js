@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 import HomeLanding from "./Components/Pricing";
 import Login from "./Components/login";
+import AdminDashboard from "./Components/Admin";
+import AdminLogin from "./Components/LoginAdmin";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Switch>
         <Route path="/" exact component={HomeLanding}/>
         <Route path="/login" exact component={Login}/>
+        <Route exact path = "/admin"><AdminDashboard /></Route>
+        <Route exact path = "/admin/login"><AdminLogin /></Route>
       </Switch>
     </Router>
   );
