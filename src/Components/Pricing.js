@@ -29,6 +29,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Link as RLink } from "react-router-dom"
 
 
 import perlas from './collar-perlas.jpg'
@@ -204,7 +205,12 @@ export default function Pricing() {
           </TableRow>
         </Table>
       </TableContainer>
-      <Button variant="contained" color="primary" href="#">Checkout</Button>
+      <RLink to={{
+        pathname: "/checkout",
+        cart: cart // your data array of objects
+      }}>
+        <Button variant="contained" color="primary">Checkout</Button>
+      </RLink>
     </Container >
   );
 
