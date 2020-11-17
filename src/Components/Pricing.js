@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -15,6 +16,21 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Badge from '@material-ui/core/Badge';
+import { withStyles } from '@material-ui/core/styles';
+import Bar from './Bar'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Link as RLink } from "react-router-dom"
+
 
 import perlas from './collar-perlas.jpg'
 
@@ -38,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
       padding: 0,
       listStyle: 'none',
     },
+  },
+  table: {
+    minWidth: 650,
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
@@ -80,30 +99,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tiers = [
+const products = [
   {
     title: 'Collar de Perlas',
-    price: '200',
+    price: 200,
     image: perlas,
     description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-    buttonText: 'Agregar al Carrito',
-    buttonVariant: 'outlined',
   },
   {
-    title: 'Collar de Perlas',
-    price: '200',
+    title: 'Collar de Oro',
+    price: 800,
     image: perlas,
     description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-    buttonText: 'Agregar al Carrito',
-    buttonVariant: 'outlined',
   },
   {
-    title: 'Collar de Perlas',
-    price: '200',
+    title: 'Collar de Plata',
+    price: 600,
     image: perlas,
     description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-    buttonText: 'Agregar al Carrito',
-    buttonVariant: 'outlined',
   }
 ];
 const footers = [
@@ -125,8 +138,153 @@ const footers = [
   },
 ];
 
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
+
+
+function createData(producto, precio, id) {
+  return { producto, precio, id };
+}
+
+const rows = [
+  createData('Collar 1', 400, "1"),
+  createData('collar 2', 237, "2")
+];
+
 export default function Pricing() {
   const classes = useStyles();
+  const [cart, setCart] = useState([]);
+  const [page, setPage] = useState('products');
+
+  const addToCart = (product) => {
+    setCart([...cart, { ...product }]);
+    console.log(cart)
+  }
+
+  const removeFromCart = (product) => {
+    setCart(cart.filter((p) => p !== product));
+  }
+
+  const renderCart = () => (
+    < Container >
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Producto</TableCell>
+              <TableCell align="right">Precio</TableCell>
+              <TableCell align="right">Borrar del carrito</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cart.map((row) => (
+              <TableRow key={row.title}>
+                <TableCell component="th" scope="row">
+                  {row.title}
+                </TableCell>
+                <TableCell align="right">${row.price}</TableCell>
+                <TableCell align="right">
+                  <IconButton aria-label="delete" onClick={() => removeFromCart(row)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableRow>
+            <TableCell component="th" scope="row">
+              Total
+                            </TableCell>
+            <TableCell align="right">${totalSum()}</TableCell>
+          </TableRow>
+        </Table>
+      </TableContainer>
+      <RLink to={{
+        pathname: "/checkout",
+        cart: cart // your data array of objects
+      }}>
+        <Button variant="contained" color="primary">Checkout</Button>
+      </RLink>
+    </Container >
+  );
+
+  const renderProducts = () => (
+    <>
+      {/* Hero unit */}
+      < Container maxWidth="sm" component="main" className={classes.heroContent} >
+        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+          Productos
+        </Typography>
+        <Typography variant="h5" align="center" color="textSecondary" component="p">
+          Aura somos un negocio que vende joyería de acero inoxidable.
+          Luce increíble con nuestra joyería.
+          Joyería para tí
+        </Typography>
+      </Container >
+      {/* End hero unit */}
+      < Container maxWidth="md" component="main" >
+        <Grid container spacing={5} alignItems="flex-end">
+          {products.map((product) => (
+            // Enterprise card is full width at sm breakpoint
+            <Grid item key={product.title} xs={12} sm={product.title === 'Enterprise' ? 12 : 6} md={4}>
+              <Card>
+                <CardHeader
+                  title={product.title}
+                  subheader={product.subheader}
+                  titleTypographyProps={{ align: 'center' }}
+                  subheaderTypographyProps={{ align: 'center' }}
+                  action={product.title === 'Pro' ? <StarIcon /> : null}
+                  className={classes.cardHeader}
+                />
+                <CardMedia
+                  className={classes.media}
+                  image={product.image}
+                  title="image"
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      ${product.price}
+                    </Typography>
+                  </div>
+                  <ul>
+                    {product.description.map((line) => (
+                      <Typography component="li" variant="subtitle1" align="center" key={line}>
+                        {line}
+                      </Typography>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardActions>
+                  <Button fullWidth variant="contained" color="primary" onClick={() => addToCart(product)}>
+                    Agregar al Carrito
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Container >
+    </>
+  );
+
+  const navigateTo = (page) => {
+    setPage(page);
+  }
+
+  const totalSum = () => {
+    var total = 0.0;
+    for (var i = 0; i < cart.length; i++) {
+      total += cart[i].price
+    }
+    return total;
+  }
 
   return (
     <React.Fragment>
@@ -135,85 +293,33 @@ export default function Pricing() {
         <Toolbar className={classes.toolbar}>
           <Typography variant="h4" color="inherit" noWrap className={classes.toolbarTitle}>
             Joyeria Aura
-          </Typography>
+                </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+            <Link variant="button" color="textPrimary" href="#" className={classes.link} onClick={() => navigateTo("products")}>
               Productos
-            </Link>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link}>
-              Carrito
-            </Link>
+                    </Link>
             <Link variant="button" color="textPrimary" href="#" className={classes.link}>
               Contacto
-            </Link>
+                    </Link>
+            <IconButton aria-label="cart" onClick={() => navigateTo("cart")}>
+              <StyledBadge badgeContent={cart.length} color="secondary">
+                <ShoppingCartIcon />
+              </StyledBadge>
+            </IconButton>
           </nav>
           <Button href="#" color="primary" variant="outlined" className={classes.link}>
             Login
-          </Button>
+                </Button>
         </Toolbar>
       </AppBar>
-      {/* Hero unit */}
-      <Container maxWidth="sm" component="main" className={classes.heroContent}>
-        <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Productos
-        </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" component="p">
-        Aura somos un negocio que vende joyería de acero inoxidable.
-        Luce increíble con nuestra joyería.
-        Joyería para tí
-        </Typography>
-      </Container>
-      {/* End hero unit */}
-      <Container maxWidth="md" component="main">
-        <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
-              <Card>
-                <CardHeader
-                  title={tier.title}
-                  subheader={tier.subheader}
-                  titleTypographyProps={{ align: 'center' }}
-                  subheaderTypographyProps={{ align: 'center' }}
-                  action={tier.title === 'Pro' ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                />
-                <CardMedia
-                    className={classes.media}
-                    image={tier.image}
-                    title="image"
-                />
-                <CardContent>
-                  <div className={classes.cardPricing}>
-                    <Typography component="h2" variant="h3" color="textPrimary">
-                      ${tier.price}
-                    </Typography>
-                  </div>
-                  <ul>
-                    {tier.description.map((line) => (
-                      <Typography component="li" variant="subtitle1" align="center" key={line}>
-                        {line}
-                      </Typography>
-                    ))}
-                  </ul>
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant} color="primary">
-                    {tier.buttonText}
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+      { page === 'products' && renderProducts()}
+      {page === 'cart' && renderCart()}
       {/* Footer */}
       <Container maxWidth="md" component="footer" className={classes.footer}>
         <Box mt={5}>
           <Copyright />
         </Box>
       </Container>
-      {/* End footer */}
     </React.Fragment>
   );
 }
