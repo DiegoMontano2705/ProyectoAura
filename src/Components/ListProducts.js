@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useState } from 'react'
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,6 +8,37 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
+import AddProduct from "./AddProduct";
+
+
+var name = "";
+var description = "";
+var price = "";
+var inventory = "";
+var image = "";
+var id = 4;
+const getName = (n) =>{
+  name = n;
+  console.log(name)
+}
+
+const getDescription = (d) => {
+  description = d;
+  console.log(description)
+}
+
+const getPrice = (p) => {
+  price = p;
+}
+
+const getInventory = (i) => {
+  inventory = i;
+}
+
+const getImage = (i) => {
+  image = i;
+  console.log(image)
+}
 
 // Generate Order Data
 function createData(id, producto, descripcion, precio, inventario, imagen) {
@@ -29,6 +61,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders() {
   const classes = useStyles();
+  const [products, setProducts] = useState(rows);
+  const [seccionAgegar, setSeccionAgregar] = useState(false);
+
+  const addProduct = () => {
+    id++
+    let product = createData(id, name, description, price, inventory, image)
+    setProducts([...products, {...product}])
+    setSeccionAgregar(!seccionAgegar)
+  }
+
+  const removeProduct = (product) => {
+    setProducts(products.filter((p) => p !== product))
+  }
+
+  const agregarUnhidden = () => {
+    setSeccionAgregar(!seccionAgegar)
+  }
+  
   return (
     <React.Fragment>
       <Title>Lista de Productos</Title>
@@ -44,22 +94,23 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {products.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.producto}</TableCell>
               <TableCell>{row.descripcion}</TableCell>
               <TableCell>{row.precio}</TableCell>
               <TableCell>{row.inventario}</TableCell>
               <TableCell>{row.imagen}</TableCell>
-              <TableCell align="right"><button class="btn btnRound"><i class="fa fa-trash"></i></button></TableCell>
+              <TableCell align="right"><button className="btn btnRound" onClick = {() => removeProduct(row)}><i className="fa fa-trash"></i></button></TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
 
       <div >
-        <button class="btnAgregar btnRound">Agregar</button>
+        <button className="btnMas btnRound" onClick={agregarUnhidden}>+</button>
       </div>
+      {seccionAgegar? <AddProduct name={getName} desc={getDescription} price={getPrice} inv={getInventory} img={getImage} submitProduct={addProduct} /> : null}
     </React.Fragment>
   );
 }

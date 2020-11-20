@@ -29,6 +29,16 @@ code {
   background-color: rgb(252, 82, 82);
 }
 
+.btnMas {
+  margin-top: 10px;
+  background-color: rgb(93, 226, 226); /* Blue background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+}
+
 .btnAgregar {
   margin-top: 10px;
   background-color: rgb(93, 226, 226); /* Blue background */
