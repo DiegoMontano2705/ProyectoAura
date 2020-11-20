@@ -7,6 +7,7 @@ import Checkout from "./Components/Checkout/Checkout"
 import Login from "./Components/login";
 import AdminDashboard from "./Components/Admin";
 import AdminLogin from "./Components/LoginAdmin";
+import Register from "./Components/Register";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/login" exact component={Login}/>
         <Route exact path = "/admin"><AdminDashboard /></Route>
         <Route exact path = "/admin/login"><AdminLogin /></Route>
+        <Route path="/Register" exact component={Register} />
       </Switch>
     </Router>
   );
