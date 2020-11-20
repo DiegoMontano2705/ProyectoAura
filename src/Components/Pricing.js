@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react'
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -99,26 +99,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const products = [
-  {
-    title: 'Collar de Perlas',
-    price: 200,
-    image: perlas,
-    description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-  },
-  {
-    title: 'Collar de Oro',
-    price: 800,
-    image: perlas,
-    description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-  },
-  {
-    title: 'Collar de Plata',
-    price: 600,
-    image: perlas,
-    description: ['Lorem ipsum dolor', 'Lorem ipsum dolor', 'Lorem ipsum dolor'],
-  }
-];
 const footers = [
   {
     title: 'Company',
@@ -161,6 +141,7 @@ export default function Pricing() {
   const classes = useStyles();
   const [cart, setCart] = useState([]);
   const [page, setPage] = useState('products');
+  const [products, setProducts] = useState([]);
 
   const addToCart = (product) => {
     setCart([...cart, { ...product }]);
@@ -184,9 +165,9 @@ export default function Pricing() {
           </TableHead>
           <TableBody>
             {cart.map((row) => (
-              <TableRow key={row.title}>
+              <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
-                  {row.title}
+                  {row.name}
                 </TableCell>
                 <TableCell align="right">${row.price}</TableCell>
                 <TableCell align="right">
@@ -235,8 +216,8 @@ export default function Pricing() {
             <Grid item key={product.title} xs={12} sm={product.title === 'Enterprise' ? 12 : 6} md={4}>
               <Card>
                 <CardHeader
-                  title={product.title}
-                  subheader={product.subheader}
+                  title={product.name}
+                  subheader={product.desc}
                   titleTypographyProps={{ align: 'center' }}
                   subheaderTypographyProps={{ align: 'center' }}
                   action={product.title === 'Pro' ? <StarIcon /> : null}
@@ -253,13 +234,7 @@ export default function Pricing() {
                       ${product.price}
                     </Typography>
                   </div>
-                  <ul>
-                    {product.description.map((line) => (
-                      <Typography component="li" variant="subtitle1" align="center" key={line}>
-                        {line}
-                      </Typography>
-                    ))}
-                  </ul>
+
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="contained" color="primary" onClick={() => addToCart(product)}>
@@ -285,6 +260,19 @@ export default function Pricing() {
     }
     return total;
   }
+
+  const getUser = async () => {
+    console.log("inside")
+    const response = await fetch("/products");
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    setProducts(data);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <React.Fragment>

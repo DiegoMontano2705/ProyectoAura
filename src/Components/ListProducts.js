@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react'
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
@@ -106,7 +106,7 @@ export default function Orders() {
           ))}
         </TableBody>
       </Table>
-      
+
       <div >
         <button className="btnMas btnRound" onClick={agregarUnhidden}>+</button>
       </div>
