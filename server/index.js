@@ -28,6 +28,14 @@ app.get('/hello', async (req, res, next) => {
     res.send('Welcome to Firebase Cloud Functions');
 });
 
+app.get('/products', async (req, res, next) => {
+    const snapshot = await db.collection("products").get();
+    var data = [];
+    snapshot.forEach(doc => {
+        data.push(doc.data());
+    })
+    res.send(data);
+});
 
 
 
