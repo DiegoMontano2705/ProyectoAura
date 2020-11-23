@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,7 +17,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
-      Aura
+        Aura
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -111,13 +111,13 @@ export default function Dashboard() {
   const [productList, setProductList] = useState(false);
 
   const changeRouteProducts = () => {
-      setProductList(true)
+    setProductList(true)
   }
 
   const changeRouteOrders = () => {
     setProductList(false)
-}
-  
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -127,10 +127,10 @@ export default function Dashboard() {
             Dashboard
           </Typography>
           <IconButton color="inherit" onClick={changeRouteOrders}>
-              <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Ordenes</Typography>
+            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Ordenes</Typography>
           </IconButton>
           <IconButton color="inherit" onClick={changeRouteProducts}>
-              <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Productos</Typography>
+            <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>Productos</Typography>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -141,7 +141,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                {productList? <Products/> : <Orders />}
+                {productList ? <Products /> : <Orders />}
               </Paper>
             </Grid>
           </Grid>
