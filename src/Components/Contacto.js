@@ -200,52 +200,27 @@ export default function Pricing() {
       {/* Hero unit */}
       < Container maxWidth="sm" component="main" className={classes.heroContent} >
         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-          Productos
+          Andrea Roman
         </Typography>
-        <Typography variant="h5" align="center" color="textSecondary" component="p">
-          Aura somos un negocio que vende joyería de acero inoxidable.
-          Luce increíble con nuestra joyería.
-          Joyería para tí
+        <Typography variant="h4" align="center" color="textSecondary" component="p">
+          Teléfono: 
+          <Link href="/Register" variant="h5">
+                {" +52 81 1395 4660"}
+            </Link>
+
         </Typography>
+
+        <Typography variant="h4" align="center" color="textSecondary" component="p">
+        Correo Electrónico:
+          <Link href="/Register" variant="h5">
+                {" A01328677@itesm.mx"}
+            </Link>
+        </Typography>
+
+
+
       </Container >
       {/* End hero unit */}
-      < Container maxWidth="md" component="main" >
-        <Grid container spacing={5} alignItems="flex-end">
-          {products.map((product) => (
-            // Enterprise card is full width at sm breakpoint
-            <Grid item key={product.title} xs={12} sm={product.title === 'Enterprise' ? 12 : 6} md={4}>
-              <Card>
-                <CardHeader
-                  title={product.name}
-                  subheader={product.desc}
-                  titleTypographyProps={{ align: 'center' }}
-                  subheaderTypographyProps={{ align: 'center' }}
-                  action={product.title === 'Pro' ? <StarIcon /> : null}
-                  className={classes.cardHeader}
-                />
-                <CardMedia
-                  className={classes.media}
-                  image={product.image}
-                  title="image"
-                />
-                <CardContent>
-                  <div className={classes.cardPricing}>
-                    <Typography component="h2" variant="h3" color="textPrimary">
-                      ${product.price}
-                    </Typography>
-                  </div>
-
-                </CardContent>
-                <CardActions>
-                  <Button fullWidth variant="contained" color="primary" onClick={() => addToCart(product)}>
-                    Agregar al Carrito
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
-      </Container >
     </>
   );
 
@@ -283,7 +258,7 @@ export default function Pricing() {
             Joyeria Aura
                 </Typography>
           <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link} onClick={() => navigateTo("products")}>
+            <Link variant="button" color="textPrimary" href="/" className={classes.link} onClick={() => navigateTo("products")}>
               Productos
                     </Link>
             <Link variant="button" color="textPrimary" href="/Contacto" className={classes.link}>
