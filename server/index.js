@@ -37,7 +37,26 @@ app.get('/products', async (req, res, next) => {
     res.send(data);
 });
 
+app.get('/orders', async (req, res, next) => {
+    const snapshot = await db.collection("orders").get();
+    var data = [];
+    snapshot.forEach(doc => {
+        data.push(doc.data());
+    })
+    res.send(data);
+});
 
+app.get('/postOrder', async (req, res, next) => {
+    var data = {
+        'date': Date(),
+        'name': 'Andres Orozco',
+        'direccion': 'Loma larga 123 mitras',
+        'productos': 'Collar de oro, collar de oro',
+        'total': 800
+    }
+    const r = await db.collection('orders').add(data);
+    res.status(200).send('success')
+});
 
 
 

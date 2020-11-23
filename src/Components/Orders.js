@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -8,24 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 
-// Generate Order Data
-function createData(id, fecha, nombre, direccion, productos, total) {
-    var texto = productos[0]
-    for (var i = 1; i < productos.length; i++) {
-        texto = texto + ", " + productos[i]
-    }
-  return { id, fecha, nombre, direccion, texto, total };
-}
-var prod = ["collar de perlas", "pulsera aguacate"]
-const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', prod, 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', prod, 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-  createData(5, '140 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79)
-];
-
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
@@ -34,6 +16,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders() {
   const classes = useStyles();
+  const [orders, setOrders] = React.useState([])
+
+
+  const getOrders = async () => {
+    const response = await fetch("/orders");
+    const data = await response.json();
+    console.log(data);
+    setOrders(data);
+  }
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+
   return (
     <React.Fragment>
       <Title>Ordenes recientes</Title>
@@ -48,12 +45,12 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.fecha}</TableCell>
-              <TableCell>{row.nombre}</TableCell>
+          {orders.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell>{row.date}</TableCell>
+              <TableCell>{row.name}</TableCell>
               <TableCell>{row.direccion}</TableCell>
-              <TableCell>{row.texto}</TableCell>
+              <TableCell>{row.productos}</TableCell>
               <TableCell align="right">{row.total}</TableCell>
             </TableRow>
           ))}

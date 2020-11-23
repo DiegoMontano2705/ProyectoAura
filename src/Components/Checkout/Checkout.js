@@ -13,14 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
-
+import Bar from '../Bar'
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
+      <Link color="inherit" href="/#">
+        Joyeria Aura
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const steps = ["Direccion", "Resumen", "Pago"];
 
-function getStepContent(step, cart, paymentHandler) {
+function getStepContent(step, cart, paymentHandler, getAddress) {
   switch (step) {
     case 0:
       return <AddressForm sendData={getAddress} />;
@@ -80,12 +80,10 @@ function getStepContent(step, cart, paymentHandler) {
       throw new Error('Unknown step');
   }
 }
-
 var address = "";
+
 var totalToPay = 0;
-const getAddress = (a) => {
-  address = a
-}
+
 const getTotal = (total) => {
   totalToPay = total;
   console.log(totalToPay)
@@ -95,7 +93,7 @@ export default function Checkout(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [order, setOrder] = React.useState([])
-
+  //const [address, setAddress] = React.useState("");
   const cart = props.location.cart
 
   console.log(cart)
@@ -108,23 +106,23 @@ export default function Checkout(props) {
     setActiveStep(activeStep - 1);
   };
 
-  const paymentHandler = (details, data) => {
-    /** Here you can call your backend API
-      endpoint and update the database */
-    console.log(details, data);
+  const addressReturned = (a) => {
+    address = a;
+  }
+
+  const getAddress = (a) => {
+    address = a
+  }
+
+  const paymentHandler = async (details, data) => {
+    // true
   }
 
 
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Joyeria Aura
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Bar />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
@@ -150,7 +148,7 @@ export default function Checkout(props) {
               </React.Fragment>
             ) : (
                 <React.Fragment>
-                  {getStepContent(activeStep, cart, paymentHandler)}
+                  {getStepContent(activeStep, cart, paymentHandler, getAddress)}
                   <div className={classes.buttons}>
                     {activeStep !== 0 && (
                       <Button onClick={handleBack} className={classes.button}>
@@ -163,7 +161,7 @@ export default function Checkout(props) {
                       onClick={handleNext}
                       className={classes.button}
                     >
-                      {activeStep === steps.length - 1 ? 'Terminar' : 'Continuar'}
+                      {activeStep === steps.length - 1 ? 'Cancelar' : 'Continuar'}
                     </Button>
                   </div>
                 </React.Fragment>

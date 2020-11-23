@@ -32,7 +32,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RLink } from "react-router-dom"
 
 
-import perlas from './collar-perlas.jpg'
 
 function Copyright() {
   return (

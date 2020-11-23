@@ -29,6 +29,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders() {
   const classes = useStyles();
+  const [products, setProducts] = React.useState([]);
+
+  const getProducts = async () => {
+    const response = await fetch("/products");
+    const data = await response.json();
+    console.log(data);
+    setProducts(data);
+  }
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <React.Fragment>
       <Title>Lista de Productos</Title>
@@ -44,13 +57,13 @@ export default function Orders() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.producto}</TableCell>
-              <TableCell>{row.descripcion}</TableCell>
-              <TableCell>{row.precio}</TableCell>
+          {products.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.desc}</TableCell>
+              <TableCell>{row.price}</TableCell>
               <TableCell>{row.inventario}</TableCell>
-              <TableCell>{row.imagen}</TableCell>
+              <TableCell>{row.image}</TableCell>
               <TableCell align="right"><button class="btn btnRound"><i class="fa fa-trash"></i></button></TableCell>
             </TableRow>
           ))}
