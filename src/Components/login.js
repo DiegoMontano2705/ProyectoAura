@@ -100,13 +100,6 @@ export default function Login(props) {
         >
           Iniciar Sesión
           </Button>
-        <Grid container>
-          <Grid item>
-            <Link href="/Register" variant="body2">
-              {"¿No tienes cuenta? Registrate"}
-            </Link>
-          </Grid>
-        </Grid>
       </div>
       <Box mt={8}>
         <Copyright />
