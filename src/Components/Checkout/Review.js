@@ -73,7 +73,6 @@ export default function Review(props) {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Direccion
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
           <Typography gutterBottom>{address}</Typography>
         </Grid>
       </Grid>

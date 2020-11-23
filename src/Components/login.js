@@ -67,52 +67,46 @@ export default function Login(props) {
         <Typography component="h1" variant="h5">
           Iniciar Sesión
         </Typography>
-        <form className={classes.form} validate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Correo Electronico"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Contraseña"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <RLink to={{
-            pathname: '/',
-            usuario: user
-          }}>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Iniciar Sesión
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="email"
+          label="Correo Electronico"
+          name="email"
+          autoComplete="email"
+          autoFocus
+          onChange={handleChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Contraseña"
+          type="password"
+          id="password"
+          autoComplete="current-password"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={() => { props.changeUser(user) }}
+        >
+          Iniciar Sesión
           </Button>
-          </RLink>
-          <Grid container>
-            <Grid item>
-              <Link href="/Register" variant="body2">
-                {"¿No tienes cuenta? Registrate"}
-              </Link>
-            </Grid>
+        <Grid container>
+          <Grid item>
+            <Link href="/Register" variant="body2">
+              {"¿No tienes cuenta? Registrate"}
+            </Link>
           </Grid>
-        </form>
+        </Grid>
       </div>
       <Box mt={8}>
         <Copyright />

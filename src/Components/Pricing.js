@@ -29,8 +29,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Link as RLink } from "react-router-dom"
-
+import { Link as RLink, Redirect } from "react-router-dom"
+import Login from "./login"
 
 function Copyright() {
   return (
@@ -141,12 +141,13 @@ export default function Pricing(props) {
   const [page, setPage] = useState('products');
   const [products, setProducts] = useState([]);
   const [user, setUser] = useState("");
+  const [login, setLogin] = useState(false);
   var usuario = ""
-  usuario = props.location.usuario
   const addToCart = (product) => {
     setCart([...cart, { ...product }]);
     console.log(cart)
   }
+  console.log(user)
 
   const removeFromCart = (product) => {
     setCart(cart.filter((p) => p !== product));
@@ -253,6 +254,11 @@ export default function Pricing(props) {
     setPage(page);
   }
 
+  const doUser = (newUser) => {
+    setUser(newUser)
+    setLogin(false)
+  }
+
   const totalSum = () => {
     var total = 0.0;
     for (var i = 0; i < cart.length; i++) {
@@ -270,57 +276,79 @@ export default function Pricing(props) {
     setProducts(data);
   }
 
+  const goLogin = () => {
+    return (
+      <Login data={doUser} />
+    )
+  }
+
+  const renderLoginComponent = () => {
+
+  }
+
   const renderLogin = () => {
     return (
-      <Button href="/login" color="primary" variant="outlined" className={classes.link}>
+      <Button onClick={() => { (setLogin(true)) }} color="primary" variant="outlined" className={classes.link}>
         Login
-      </Button>)
+      </Button>
+    )
   }
 
   const renderLoggedIn = () => {
     return (
       <Typography component="h2" variant="h6">
-        {usuario}
+        {user}
       </Typography>
     )
   }
 
   useEffect(() => {
     getUser();
+    if (props.location.usuario !== "") {
+      usuario = props.location.usuario
+    }
   }, []);
 
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="h4" color="inherit" noWrap className={classes.toolbarTitle}>
-            Joyeria Aura
+  const renderPage = () => {
+
+  }
+
+  if (login === true) {
+    return <Login changeUser={doUser} />
+  } else {
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="static" color="default" elevation={0} className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            <Typography variant="h4" color="inherit" noWrap className={classes.toolbarTitle}>
+              Joyeria Aura
                 </Typography>
-          <nav>
-            <Link variant="button" color="textPrimary" href="#" className={classes.link} onClick={() => navigateTo("products")}>
-              Productos
+            <nav>
+              <Link variant="button" color="textPrimary" href="#" className={classes.link} onClick={() => navigateTo("products")}>
+                Productos
                     </Link>
-            <Link variant="button" color="textPrimary" href="/Contacto" className={classes.link}>
-              Contacto
+              <Link variant="button" color="textPrimary" href="/Contacto" className={classes.link}>
+                Contacto
                     </Link>
-            <IconButton aria-label="cart" onClick={() => navigateTo("cart")}>
-              <StyledBadge badgeContent={cart.length} color="secondary">
-                <ShoppingCartIcon />
-              </StyledBadge>
-            </IconButton>
-          </nav>
-          {user === "" ? renderLogin() : renderLoggedIn()}
-        </Toolbar>
-      </AppBar>
-      { page === 'products' && renderProducts()}
-      {page === 'cart' && renderCart()}
-      {/* Footer */}
-      <Container maxWidth="md" component="footer" className={classes.footer}>
-        <Box mt={5}>
-          <Copyright />
-        </Box>
-      </Container>
-    </React.Fragment>
-  );
+              <IconButton aria-label="cart" onClick={() => navigateTo("cart")}>
+                <StyledBadge badgeContent={cart.length} color="secondary">
+                  <ShoppingCartIcon />
+                </StyledBadge>
+              </IconButton>
+            </nav>
+            {user === "" ? renderLogin() : renderLoggedIn()}
+          </Toolbar>
+        </AppBar>
+        { page === 'products' && renderProducts()}
+        {page === 'cart' && renderCart()}
+        {/* Footer */}
+        <Container maxWidth="md" component="footer" className={classes.footer}>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
+        </Container>
+      </React.Fragment>
+    );
+  }
 }
