@@ -49,9 +49,6 @@ export default function Bar() {
                         Contacto
                     </Link>
                 </nav>
-                <Button href="#" color="primary" variant="outlined" className={classes.link}>
-                    Login
-                </Button>
             </Toolbar>
         </AppBar>
     )
