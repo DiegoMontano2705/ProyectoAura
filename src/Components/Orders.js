@@ -51,7 +51,7 @@ export default function Orders() {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.direccion}</TableCell>
               <TableCell>{row.productos}</TableCell>
-              <TableCell align="right">{row.total}</TableCell>
+              <TableCell align="right">${row.total}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { Link as RLink } from "react-router-dom"
 
 function Copyright() {
   return (
@@ -46,8 +47,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function Login(props) {
   const classes = useStyles();
+  const [user, setUser] = React.useState("");
+
+  const handleChange = (event) => {
+    console.log(event.target.value)
+    setUser(event.target.value)
+    console.log(user)
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -59,7 +67,7 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Iniciar Sesión
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} validate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -70,6 +78,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -82,19 +91,20 @@ export default function SignIn() {
             id="password"
             autoComplete="current-password"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Iniciar Sesión
+          <RLink to={{
+            pathname: '/',
+            usuario: user
+          }}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Iniciar Sesión
           </Button>
+          </RLink>
           <Grid container>
             <Grid item>
               <Link href="/Register" variant="body2">

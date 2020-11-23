@@ -32,7 +32,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Link as RLink } from "react-router-dom"
 
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -136,12 +135,14 @@ const rows = [
   createData('collar 2', 237, "2")
 ];
 
-export default function Pricing() {
+export default function Pricing(props) {
   const classes = useStyles();
   const [cart, setCart] = useState([]);
   const [page, setPage] = useState('products');
   const [products, setProducts] = useState([]);
-
+  const [user, setUser] = useState("");
+  var usuario = ""
+  usuario = props.location.usuario
   const addToCart = (product) => {
     setCart([...cart, { ...product }]);
     console.log(cart)
@@ -269,6 +270,21 @@ export default function Pricing() {
     setProducts(data);
   }
 
+  const renderLogin = () => {
+    return (
+      <Button href="/login" color="primary" variant="outlined" className={classes.link}>
+        Login
+      </Button>)
+  }
+
+  const renderLoggedIn = () => {
+    return (
+      <Typography component="h2" variant="h6">
+        {usuario}
+      </Typography>
+    )
+  }
+
   useEffect(() => {
     getUser();
   }, []);
@@ -294,9 +310,7 @@ export default function Pricing() {
               </StyledBadge>
             </IconButton>
           </nav>
-          <Button href="/login" color="primary" variant="outlined" className={classes.link}>
-            Login
-                </Button>
+          {user === "" ? renderLogin() : renderLoggedIn()}
         </Toolbar>
       </AppBar>
       { page === 'products' && renderProducts()}

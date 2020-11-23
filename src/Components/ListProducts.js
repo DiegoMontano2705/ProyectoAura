@@ -17,7 +17,7 @@ var price = "";
 var inventory = "";
 var image = "";
 var id = 4;
-const getName = (n) =>{
+const getName = (n) => {
   name = n;
   console.log(name)
 }
@@ -45,13 +45,7 @@ function createData(id, producto, descripcion, precio, inventario, imagen) {
   return { id, producto, descripcion, precio, inventario, imagen };
 }
 
-const rows = [
-  createData(0, 'collar perlas', 'collar con perlas', '$200', '10', 'https://drive.google.com/file/d/1wgx2DWzKx57V2c5kYhso2P2_YFQGgbSn/view?usp=sharing'),
-  createData(1, 'collar perlas', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 'as'),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', '100.81'),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', '654.39'),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', '212.79'),
-];
+
 
 const useStyles = makeStyles((theme) => ({
   seeMore: {
@@ -79,7 +73,7 @@ export default function Orders() {
   const addProduct = () => {
     id++
     let product = createData(id, name, description, price, inventory, image)
-    setProducts([...products, {...product}])
+    setProducts([...products, { ...product }])
     setSeccionAgregar(!seccionAgegar)
   }
 
@@ -90,7 +84,7 @@ export default function Orders() {
   const agregarUnhidden = () => {
     setSeccionAgregar(!seccionAgegar)
   }
-  
+
   return (
     <React.Fragment>
       <Title>Lista de Productos</Title>
@@ -122,7 +116,7 @@ export default function Orders() {
       <div >
         <button className="btnMas btnRound" onClick={agregarUnhidden}>+</button>
       </div>
-      {seccionAgegar? <AddProduct name={getName} desc={getDescription} price={getPrice} inv={getInventory} img={getImage} submitProduct={addProduct} /> : null}
+      {seccionAgegar ? <AddProduct name={getName} desc={getDescription} price={getPrice} inv={getInventory} img={getImage} submitProduct={addProduct} /> : null}
     </React.Fragment>
   );
 }

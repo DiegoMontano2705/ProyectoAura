@@ -116,6 +116,7 @@ export default function Checkout(props) {
 
   const paymentHandler = async (details, data) => {
     // true
+    handleNext();
   }
 
 

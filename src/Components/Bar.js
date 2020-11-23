@@ -39,13 +39,13 @@ export default function Bar() {
                     Joyeria Aura
                 </Typography>
                 <nav>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+                    <Link variant="button" color="textPrimary" href="/" className={classes.link}>
                         Productos
                     </Link>
                     <Link variant="button" color="textPrimary" href="/cart" className={classes.link}>
                         Carrito
                     </Link>
-                    <Link variant="button" color="textPrimary" href="#" className={classes.link}>
+                    <Link variant="button" color="textPrimary" href="/Contacto" className={classes.link}>
                         Contacto
                     </Link>
                 </nav>
